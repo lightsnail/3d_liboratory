@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lightsnail.threedd_liboratory.MainActivity" >
+
+    <com.lightsnail.threedd_liboratory.ThreeD_View
+        android:id="@+id/threeDView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ff000000" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正交投影XoY平面"
+            android:textColor="#00ff00" >
+        </Button>
+
+        <Button
+            android:id="@+id/trans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="随机位移"
+            android:textColor="#ffffff" >
+        </Button>
+
+        <Button
+            android:id="@+id/scale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="随机缩放"
+            android:textColor="#ffffff" >
+        </Button>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/rotate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="随机旋转"
+                android:textColor="#ffffff" >
+            </Button>
+
+            <Button
+                android:id="@+id/rotateX"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="旋转X"
+                android:textColor="#ffffff" >
+            </Button>
+
+            <Button
+                android:id="@+id/rotateY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="旋转Y"
+                android:textColor="#ffffff" >
+            </Button>
+
+            <Button
+                android:id="@+id/rotateZ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="旋转Z"
+                android:textColor="#ffffff" >
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
