@@ -12,5 +12,9 @@ public class QC_PointF {
 		this.x = i;
 		this.y = j;
 	}
+	public QC_PointF(float i, float j, float k) {
+		this(i,j);
+		this.z = k;
+	}
 
 }

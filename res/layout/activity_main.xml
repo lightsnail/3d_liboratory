@@ -10,6 +10,59 @@
         android:layout_height="match_parent"
         android:background="#ff000000" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true" >
+
+        <com.lightsnail.threedd_liboratory.ThreeD_XoY
+            android:id="@+id/xoy"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="#ff111111" />
+        <com.lightsnail.threedd_liboratory.ThreeD_XoZ
+            android:id="@+id/xoz"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="#ff111111" />
+
+        <com.lightsnail.threedd_liboratory.ThreeD_YoZ
+            android:id="@+id/yoz"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="#ff111111" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="正交XoY"
+            android:textColor="#00ff00" >
+        </Button>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="正交XoZ"
+            android:textColor="#00ff00" >
+        </Button>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="正交YoZ"
+            android:textColor="#00ff00" >
+        </Button>
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +71,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="正交投影XoY平面"
+            android:text="透视XoY平面"
             android:textColor="#00ff00" >
         </Button>
 
@@ -41,14 +94,6 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-
-            <Button
-                android:id="@+id/rotate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="随机旋转"
-                android:textColor="#ffffff" >
-            </Button>
 
             <Button
                 android:id="@+id/rotateX"

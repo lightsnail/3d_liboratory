@@ -1,7 +1,9 @@
 package com.lightsnail.threedd_liboratory;
 
+import java.util.ArrayList;
+
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,7 +11,7 @@ import android.view.View.OnClickListener;
 
 import com.example.threedd_liboratory.R;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
 	private ThreeD_View mThreeD;
 
@@ -18,6 +20,18 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mThreeD = (ThreeD_View) findViewById(R.id.threeDView);
+		IDrawCall viewXoy = (IDrawCall) findViewById(R.id.xoy);
+		IDrawCall viewXoz = (IDrawCall) findViewById(R.id.xoz);
+		IDrawCall viewYoz = (IDrawCall) findViewById(R.id.yoz);
+		
+		
+		
+		ArrayList<IDrawCall>  list = new ArrayList<IDrawCall>();
+		list.add(viewXoy);
+		list.add(viewXoz);
+		list.add(viewYoz);
+		mThreeD.registViews(list);
+		
 		findViewById(R.id.trans).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -32,13 +46,28 @@ public class MainActivity extends ActionBarActivity {
 				mThreeD.goScale();
 			}
 		});
-		findViewById(R.id.rotate).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.rotateZ).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				mThreeD.goRotate();	
+				mThreeD.goRotateZ();	
 			}
 		});
+		findViewById(R.id.rotateY).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mThreeD.goRotateY();	
+			}
+		});
+		findViewById(R.id.rotateX).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mThreeD.goRotateX();	
+			}
+		});
+		
 	}
 
 	@Override
