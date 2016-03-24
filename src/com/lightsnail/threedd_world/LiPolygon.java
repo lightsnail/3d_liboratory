@@ -24,6 +24,7 @@ public class LiPolygon extends LiObject {
 	private LiScroller mLiScrollerZ  ;
 	private LiScroller mLiScrollerScaleX  ;
 	private LiScroller mLiScrollerScaleY  ;
+	private LiScroller mLiScrollerScaleZ  ;
 	private LiScroller mLiScrollerRotateZ  ;
 	private LiScroller mLiScrollerRotateY  ;
 	private LiScroller mLiScrollerRotateX  ;
@@ -54,9 +55,10 @@ public class LiPolygon extends LiObject {
     };
 
     private float[] mMatrix4Scale= new float[]{
-    		1,0,0,
-    		0,1,0,
-    		0,0,1,
+    		1,0,0,0,
+    		0,1,0,0,
+    		0,0,1,0,
+    		0,0,0,1,
     };
     private float[] mMatrix4RotateZ= new float[]{
     		1,0,0,0,
@@ -88,8 +90,10 @@ public class LiPolygon extends LiObject {
 		mLiScrollerX = new LiScroller(mContext,0,100);
 		mLiScrollerY = new LiScroller(mContext,0,100);
 		mLiScrollerZ = new LiScroller(mContext,0,100);
+		mLiScrollerZ.scrollToTargetIndex(-AppConstant.UNIT, AppConstant.ANIMATION_DURATION);
 		mLiScrollerScaleX = new LiScroller(mContext,1,100);
 		mLiScrollerScaleY = new LiScroller(mContext,1,100);
+		mLiScrollerScaleZ = new LiScroller(mContext,1,100);
 		mLiScrollerRotateZ = new LiScroller(mContext,0,100);
 		mLiScrollerRotateY = new LiScroller(mContext,0,100);
 		mLiScrollerRotateX = new LiScroller(mContext,0,100);
@@ -97,13 +101,32 @@ public class LiPolygon extends LiObject {
 	public void draw( int width, int height, Canvas canvas,float[] projection, boolean joinZ) {
 		
 
-//		mMatrix4Tran[12] = mLiScrollerX.getCurrentIndex();
-//		mMatrix4Tran[13] = mLiScrollerY.getCurrentIndex();
-//		mMatrix4Tran[14] = mLiScrollerZ.getCurrentIndex();
-		
-		mMatrix4Scale[0] = mLiScrollerScaleX.getCurrentIndex();
-		mMatrix4Scale[4] = mLiScrollerScaleY.getCurrentIndex();
 
+		Log.d("debug", "mLiScrollerX.getCurrentIndex() = "+mLiScrollerX.getCurrentIndex());
+//
+		if(joinZ){
+			mMatrix4Tran[12] = mLiScrollerX.getCurrentIndex();
+			mMatrix4Tran[13] = mLiScrollerY.getCurrentIndex();
+			mMatrix4Tran[14] = mLiScrollerZ.getCurrentIndex();
+			mMatrix4Scale[0] = mLiScrollerScaleX.getCurrentIndex() ;
+			mMatrix4Scale[5] = mLiScrollerScaleY.getCurrentIndex()  ;
+			mMatrix4Scale[10] = mLiScrollerScaleZ.getCurrentIndex()  ;
+		}else{
+
+			mMatrix4Tran[12] = 0;
+			mMatrix4Tran[13] = 0;
+			mMatrix4Tran[14] = 0;
+			
+			float baseScaleX = width /AppConstant.SCREEN_WIDTH;
+			float baseScaleY = height /AppConstant.SCREEN_HEIGHT;
+			float baseScale = baseScaleX < baseScaleY ? baseScaleX : baseScaleY;
+			mMatrix4Scale[0] = mLiScrollerScaleX.getCurrentIndex() * baseScale;
+			mMatrix4Scale[5] = mLiScrollerScaleY.getCurrentIndex() * baseScale;
+			mMatrix4Scale[10] = mLiScrollerScaleZ.getCurrentIndex() * baseScale;
+		}
+
+		
+		
 		mMatrix4RotateZ[0] = (float) Math.cos(mLiScrollerRotateZ.getCurrentIndex());
 		mMatrix4RotateZ[1] = (float) Math.sin(mLiScrollerRotateZ.getCurrentIndex());
 		mMatrix4RotateZ[4] = -mMatrix4RotateZ[1];
@@ -114,33 +137,27 @@ public class LiPolygon extends LiObject {
 		mMatrix4RotateY[8] = -mMatrix4RotateY[2];
 		mMatrix4RotateY[10] = mMatrix4RotateY[0];
 		
+		
 		mMatrix4RotateX[5] = (float) Math.cos(mLiScrollerRotateX.getCurrentIndex());
 		mMatrix4RotateX[6] = (float) Math.sin(mLiScrollerRotateX.getCurrentIndex());
 		mMatrix4RotateX[9] = -mMatrix4RotateX[6];
 		mMatrix4RotateX[10] = mMatrix4RotateX[5];
 		
-		mMatrix4Tran[14] = 0;
-		if(joinZ){
-			mMatrix4Tran[14] = -1000;
-		}
+		
 		ArrayList<QC_PointF> mTargetPointList = new ArrayList<QC_PointF>();
 		for (int i = 0; i < mSourcePointList.size(); i++) {
 		
-			float[]	 targetMatrix  =  MatrixUtil.mul4( mMatrix4RotateX,mMatrix4RotateY,mMatrix4RotateZ,mMatrix4Tran);
+			float[]	 targetMatrix  =  MatrixUtil.mul4(mMatrix4Scale, mMatrix4RotateX,mMatrix4RotateY,mMatrix4RotateZ,mMatrix4Tran);
 			QC_PointF  qc_PointF = MatrixUtil.mul4(mSourcePointList.get(i),targetMatrix);
-			Log.d("debug", "qc_PointF.z = "+qc_PointF.z);
 			 if(joinZ){
-//					projection[0] *= 0.6f;
-//					projection[5] *= 0.6f;
-//					projection[9] *= 0.6f;
 					 qc_PointF = MatrixUtil.mul4(qc_PointF,new float[]{
 
-							-600/ qc_PointF.z ,0,0,0,
-					    		0,-600/ qc_PointF.z,0,0,
-					    		0,0,0.5f,0,
+							 -AppConstant.UNIT/2f/ qc_PointF.z ,0,0,0,
+					    		0,-AppConstant.UNIT/2f/ qc_PointF.z,0,0,
+					    		0,0,-AppConstant.UNIT/2f/ qc_PointF.z,0,
 					    		0,0,0,1,
 					    });
-
+//
 				}
 			 qc_PointF = MatrixUtil.mul4(qc_PointF,projection);
 			
@@ -162,16 +179,23 @@ public class LiPolygon extends LiObject {
 		this.mSourcePointList = arrayList;
 		this.mIndexList = indexList;
 	}
-	public void translation(float x, float y,float z) {
-		LogUtil.d("tra x = "+x +",y = "+y);
+	public void translationX(float x) {
 		mLiScrollerX.scrollToTargetIndex(x, AppConstant.ANIMATION_DURATION);
+	}
+	public void translationY( float y ) {
 		mLiScrollerY.scrollToTargetIndex(y, AppConstant.ANIMATION_DURATION);
+	}
+	public void translationZ( float z) {
 		mLiScrollerZ.scrollToTargetIndex(z, AppConstant.ANIMATION_DURATION);
 	}
-	public void scale(float x, float y) {
-		LogUtil.d("scale x = "+x +",y = "+y);
+	public void scaleX(float x ) {
 		mLiScrollerScaleX.scrollToTargetIndex(x, AppConstant.ANIMATION_DURATION);
+	}
+	public void scaleY(  float y ) {
 		mLiScrollerScaleY.scrollToTargetIndex(y, AppConstant.ANIMATION_DURATION);
+	}
+	public void scaleZ( float z) {
+		mLiScrollerScaleZ .scrollToTargetIndex(z, AppConstant.ANIMATION_DURATION);
 	}
 	public void rotateZ(float rotate) {
 		LogUtil.d("rotate  = "+  rotate);
@@ -223,14 +247,17 @@ public class LiPolygon extends LiObject {
 	public boolean computeScroll() {
 		boolean a = mLiScrollerX.computeOffset();
 		boolean b =  mLiScrollerY.computeOffset();
-		boolean c = mLiScrollerScaleX.computeOffset();
-		boolean d =  mLiScrollerScaleY.computeOffset();
-		boolean e = mLiScrollerRotateZ.computeOffset();
-		boolean f = mLiScrollerRotateY.computeOffset();
-		boolean g = mLiScrollerRotateX.computeOffset();
-		boolean h = mLiScrollerZ.computeOffset();
+		boolean c = mLiScrollerZ.computeOffset();
 		
-		boolean finalBoo = a || b|| c|| d|| e || f ||g ||h;
+		boolean d = mLiScrollerScaleX.computeOffset();
+		boolean e =  mLiScrollerScaleY.computeOffset();
+		boolean f = mLiScrollerScaleZ.computeOffset();
+		
+		boolean g = mLiScrollerRotateZ.computeOffset();
+		boolean h = mLiScrollerRotateY.computeOffset();
+		boolean i = mLiScrollerRotateX.computeOffset();
+		
+		boolean finalBoo = a || b|| c|| d|| e || f ||g ||h || i;
 		
 		return finalBoo;
 	}

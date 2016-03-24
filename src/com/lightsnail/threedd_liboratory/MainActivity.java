@@ -31,19 +31,47 @@ public class MainActivity extends Activity {
 		list.add(viewXoz);
 		list.add(viewYoz);
 		mThreeD.registViews(list);
-		
-		findViewById(R.id.trans).setOnClickListener(new OnClickListener() {
+
+		findViewById(R.id.transX).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				mThreeD.goTran();
+				mThreeD.goTranX();
 			}
 		});
-		findViewById(R.id.scale).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.transY).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				mThreeD.goScale();
+				mThreeD.goTranY();
+			}
+		});
+		findViewById(R.id.transZ).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mThreeD.goTranZ();
+			}
+		});
+		findViewById(R.id.scaleX).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mThreeD.goScaleX();
+			}
+		});
+		findViewById(R.id.scaleY).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mThreeD.goScaleY();
+			}
+		});
+		findViewById(R.id.scaleZ).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mThreeD.goScaleZ();
 			}
 		});
 		findViewById(R.id.rotateZ).setOnClickListener(new OnClickListener() {

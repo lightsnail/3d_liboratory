@@ -51,7 +51,6 @@ public class ThreeD_View  extends View{
     		0,0,0,1,
     };
 	private boolean mInit = false;
-	
 	private LiPolygon mLipolygon;
 
 	private Context mContext;
@@ -97,23 +96,25 @@ public class ThreeD_View  extends View{
 		AppConstant.SCREEN_WIDTH = getWidth();
 		AppConstant.SCREEN_HEIGHT = getHeight();
 		if(!mInit){
+			
 			mInit  = true;
-			ArrayList<QC_PointF> arrayList = new ArrayList<QC_PointF>();
-			arrayList.add(new QC_PointF(-100, -100,100));//0
-			arrayList.add(new QC_PointF(100, -100,100));//1
-			arrayList.add(new QC_PointF(100,100,100));//2
-			arrayList.add(new QC_PointF(-100f,100f,100));//3
-			arrayList.add(new QC_PointF(-100, -100,-100));//4
-			arrayList.add(new QC_PointF(100, -100,-100));//5
-			arrayList.add(new QC_PointF(100,100,-100));//6
-			arrayList.add(new QC_PointF(-100f,100f,-100));//7
+			AppConstant.UNIT = AppConstant.SCREEN_WIDTH > AppConstant.SCREEN_HEIGHT ?  AppConstant.SCREEN_HEIGHT : AppConstant.SCREEN_WIDTH;
+			ArrayList<QC_PointF> arrayList = new ArrayList<QC_PointF>(); 
+			arrayList.add(new QC_PointF(-0.3f * AppConstant.UNIT, -0.3f * AppConstant.UNIT,0.3f * AppConstant.UNIT));//0
+			arrayList.add(new QC_PointF(0.3f * AppConstant.UNIT, -0.3f * AppConstant.UNIT,0.3f * AppConstant.UNIT));//1
+			arrayList.add(new QC_PointF(0.3f * AppConstant.UNIT,0.3f * AppConstant.UNIT,0.3f * AppConstant.UNIT));//2
+			arrayList.add(new QC_PointF(-0.3f * AppConstant.UNIT,0.3f * AppConstant.UNIT,0.3f * AppConstant.UNIT));//3
+			arrayList.add(new QC_PointF(-0.3f * AppConstant.UNIT, -0.3f * AppConstant.UNIT,-0.3f * AppConstant.UNIT));//4
+			arrayList.add(new QC_PointF(0.3f * AppConstant.UNIT, -0.3f * AppConstant.UNIT,-0.3f * AppConstant.UNIT));//5
+			arrayList.add(new QC_PointF(0.3f * AppConstant.UNIT,0.3f * AppConstant.UNIT,-0.3f * AppConstant.UNIT));//6
+			arrayList.add(new QC_PointF(-0.3f * AppConstant.UNIT,0.3f * AppConstant.UNIT,-0.3f * AppConstant.UNIT));//7
 
 			ArrayList<Integer> indexList = new ArrayList<Integer>();
 			indexList.add(0);indexList.add(1);
 			indexList.add(1);indexList.add(2);
 			indexList.add(2);indexList.add(3);
 			indexList.add(3);indexList.add(0);
-
+			
 			indexList.add(4+0);indexList.add(4+1);
 			indexList.add(4+1);indexList.add(4+2);
 			indexList.add(4+2);indexList.add(4+3);
@@ -159,26 +160,74 @@ public class ThreeD_View  extends View{
 			postInvalidate();
 		}
 	}
-	public void goTran() {
-		float x = AppConstant.SCREEN_WIDTH/2;
-		float y = AppConstant.SCREEN_HEIGHT/2;
+	public void goTranX() {
+		float x = AppConstant.UNIT/2;
+		float y = AppConstant.UNIT/2;
 		float z = AppConstant.SCREEN_HEIGHT ;
 		float xr  = (float) (Math.random() *2- 1);
 		float yr  = (float) (Math.random() *2- 1);
-		float zr  = (float) (-Math.random() *2 );
+		float zr  = (float) (-Math.random() *4 );
 //		mLipolygon.translation(x*xr,y*yr,z*zr);
-		mLipolygon.translation(0,0,z*zr);
+		mLipolygon.translationX(x*xr );
 		
 		postInvalidate();
 	}
-
-	public void goScale() {
-
-		float x = AppConstant.SCREEN_WIDTH/200;
-		float y = AppConstant.SCREEN_HEIGHT/200;
+	public void goTranY() {
+		float x = AppConstant.UNIT/2;
+		float y = AppConstant.UNIT/2;
+		float z = AppConstant.SCREEN_HEIGHT ;
 		float xr  = (float) (Math.random() *2- 1);
 		float yr  = (float) (Math.random() *2- 1);
-		mLipolygon.scale(x*xr,y*yr);
+		float zr  = (float) (-Math.random() *4 );
+//		mLipolygon.translation(x*xr,y*yr,z*zr);
+		mLipolygon.translationY( y*yr);
+		
+		postInvalidate();
+	}
+	public void goTranZ() {
+		float x = AppConstant.UNIT/2;
+		float y = AppConstant.UNIT/2;
+		float z = AppConstant.SCREEN_HEIGHT ;
+		float xr  = (float) (Math.random() *2- 1);
+		float yr  = (float) (Math.random() *2- 1);
+		float zr  = (float) (-Math.random() *4 );
+//		mLipolygon.translation(x*xr,y*yr,z*zr);
+		mLipolygon.translationZ( -AppConstant.UNIT + AppConstant.UNIT *zr);
+		
+		postInvalidate();
+		
+		
+	}
+
+	public void goScaleX() {
+
+//		float x = AppConstant.SCREEN_WIDTH/200;
+//		float y = AppConstant.SCREEN_HEIGHT/200;
+//		float z = AppConstant.SCREEN_WIDTH/200;
+		float xr  = (float) (Math.random() *4 );
+		float yr  = (float) (Math.random() *4 );
+		float zr  = (float) (Math.random() *4 );
+		mLipolygon.scaleX( xr );
+		postInvalidate();
+	}
+	public void goScaleY() {
+
+//		float x = AppConstant.SCREEN_WIDTH/200;
+//		float y = AppConstant.SCREEN_HEIGHT/200;
+//		float z = AppConstant.SCREEN_WIDTH/200;
+		float yr  = (float) (Math.random() *4 );
+		mLipolygon.scaleY( yr);
+		postInvalidate();
+	}
+	public void goScaleZ() {
+
+//		float x = AppConstant.SCREEN_WIDTH/200;
+//		float y = AppConstant.SCREEN_HEIGHT/200;
+//		float z = AppConstant.SCREEN_WIDTH/200;
+		float xr  = (float) (Math.random() *4 );
+		float yr  = (float) (Math.random() *4 );
+		float zr  = (float) (Math.random() *4 );
+		mLipolygon.scaleZ(  zr);
 		postInvalidate();
 	}
 	public void goRotateZ() {
